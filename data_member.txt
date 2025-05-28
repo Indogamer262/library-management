@@ -1,0 +1,6 @@
+ID_Buku||Judul||Deskripsi||Penulis||Kategori||Total
+P1||Mutiara Iman||Buku yang dapat memperkuat iman dan mental||Pdt. Yohanes Bambang Mulyono, M.Th.||Pendidikan||2
+P2||Teknik Bahasa Indonesia||Buku yang memberikan pemahaman dasar untuk membuat karya ilmiah||Prof. Dr. Dra. Rosida Tiurma Manurung, M.Hum.||Pendidikan||16
+P3||Jaringan Komputer Dasar||Buku yang memberikan pemahaman dasar mengenai jaringan antar komputer||Daniel Jahja Surjawan, S.Kom., M.T.;Sendy Ferdian Sujadi, S.Kom., M.T.||Pendidikan||5
+P4||Introduction to Logic Third Edition||Buku yang memberikan gambaran logika matematis bagi pemula||Harry J. Gensler||Pendidikan||1
+P5||
