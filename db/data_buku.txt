@@ -1,0 +1,16 @@
+ID_Buku||Judul||Deskripsi||Penulis||Kategori||Stok
+P1||Mutiara Iman||Buku yang dapat memperkuat iman dan mental.||Yohanes Bambang Mulyono||Pendidikan||2
+P2||Teknik Bahasa Indonesia||Buku yang memberikan pemahaman dasar untuk membuat karya ilmiah.||Rosida Tiurma Manurung||Pendidikan||1
+P3||Jaringan Komputer Dasar||Buku yang memberikan pemahaman dasar mengenai jaringan antar komputer.||Daniel Jahja Surjawan, Sendy Ferdian Sujadi||Pendidikan||5
+P4||Introduction to Logic, 3rd Edition||Buku yang memberikan gambaran logika matematis bagi pemula, cocok bagi mahasiswa.||Harry J. Gensler||Pendidikan||1
+P5||Pemrograman Visual Menggunakan Virtual Robot HEX||Buku yang memberikan pengetahuan Pemrograman Visual dengan VEXcode.||Teddy Marcus Zakaria||Pendidikan||5
+P6||Elementary Linear Algebra: Applications Version, 12th Edition||Buku yang membarikan pengetahuan dasar aljabar linear bagi pemula, cocok bagi mahasiswa.||Howard Anton, Chris Rorres, Anton Kaul||Pendidikan||2
+P7||Elementary Linear Algebra, 8th Edition||Buku yang berisi presentasi materi Aljabar linear secara singkat, jelas, padat.||Ron Larson||Pendidikan||0
+P8||Linear Algebra: Step by Step||Buku yang berisi permasalahan dunia nyata yang diselesaikan oleh Aljabar Linear dasar.||Kuldeep Singh||Pendidikan||4
+P9||Sukarno: An Autobiography||Buku yang mencerminkan semua kualitas dramatis dan kontradiktif dari mantan presiden Sukarno.||Sukarno, Cindy Heller Adams||Biografi||2
+P10||Biografi Gus Dur||Buku yang memotret dan menampilkan pemahaman yang utuh dan komprehensif tentang sosok Gus Dur kepada kita.||Greg Barton||Biografi||0
+P15||Si Juki: Komik Strip||Komik yang merangkum perjalanan si juki sang aktor komik.||Faza Meonk||Komik||3
+P16||Tombs: Junji Ito Story Collection||Mimpi buruk terkini tentang batu nisan dipersembahkan oleh pakar horor Junji Ito.||Junji Ito||Komik||1
+P19||Spy X Family Vol.1||Buku yang menyeritakan seorang mata-mata yang harus membangun keluarga palsu demi melancarkan misi perdamaian.||Endou Tatsuya||Komik||1
+P22||Bumi Manusia||Novel yang menceritakan tentang perjuangan melawan diskriminasi Belanda terhadap pribumi pada masa kolonial.||Pramoedya Ananta Toer||Novel||1
+P25||Perempuan Inspiratif: Penjaga Negeri||Novel yang menekankan bahwa perempuan pada era digital merupakan kunci di sektor publik.||Rosida Tiurma Manurung||Novel||0
