@@ -5,3 +5,5 @@ NIK||ID_member||nama_member||password_member
 29112705346438||2472026||Valentino Hose||ValentinoH_member
 34561234012789||2472006||Sean Patrick||SeanP_member
 78934564012123||2472042||Gavin Malik Setiawan||GavinM_member
+12340123459999||2472048||Jayden Marvel Ethanael||jayden
+12340123459988||2472049||Gak tau siapa||jayden

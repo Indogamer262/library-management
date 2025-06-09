@@ -54,12 +54,36 @@ def writeDB(array, dbFile):
 # readyString: variabel menyimpan string yang akan ditulis ke file (string)
 def appendDB(array, dbFile):
     processArr = array
+
+    # convert all datatype to str
+    for i in range(0, len(processArr)):
+        processArr[i] = str(processArr[i])
+
     readyString = "\n"
     readyString += "||".join(processArr)
 
     # append the joined string to files
     with open(dbFile, "a") as files:
         files.write(readyString)
+    return
+
+## Definisi fungsi removeDB
+# --- Kamus Data ---
+# lines: variabel parameter untuk menentukan baris yang ingin dihapus (integer)
+# dbFile: variabel parameter untuk menentukan file database yang akan diubah (string)
+# objectData: list untuk menyimpan sementara isi database (list string)
+# readyList: list untuk menyimpan list yang sudah dimodifikasi (list string)
+def removeDB(lines, dbFile):
+    objectData = readDB(dbFile)
+    readyList = [None]*(len(objectData)-1)
+    
+    k=0
+    for i in range(0, len(objectData)):
+        if (i != lines):
+            readyList[k] = objectData[i]
+            k += 1
+    writeDB(readyList, dbFile)
+
     return
 
 ## Definisi fungsi bookList
@@ -168,6 +192,113 @@ def peminjaman(daftarPinjam, jumlah):
                 print("Password salah.")
     return
 
+## Definisi fungsi pengembalian
+# --- Kamus Data ---
+def pengembalian():
+    # minta login
+    idMember = int(input("Masukkan ID Member: "))
+    passwordMember = str(input("Masukkan Password Member: "))
+
+    # readDB member
+    # cek id dan password
+    dataMember = readDB('db/data_member.txt')
+    for i in range(1, len(dataMember)):
+        if(idMember == int(dataMember[i][1])):
+            if(passwordMember == dataMember[i][3]):
+                print("Login berhasil!")
+            else:
+                idMember = 0
+                print("Login gagal! silahkan coba lagi!")
+
+    # readDB peminjaman
+    # readDB buku
+    # pilih buku yang akan dikembalikan
+    dataPeminjam = readDB('db/data_peminjam.txt')
+    dataBuku = readDB('db/data_buku.txt')
+    if(idMember != 0):
+        print("Pilih buku yang akan dikembalikan:")
+        
+        # tampilkan detail buku yang dipinjam
+        for i in range(0,len(dataPeminjam)):
+            if(dataPeminjam[i][0] == str(idMember)):
+                print(dataPeminjam[i][2], end="    ")
+
+                # tampilkan judul buku
+                for j in range(0,len(dataBuku)):
+                    if(dataPeminjam[i][2] == dataBuku[j][0]):
+                        print(dataBuku[j][1])
+                # tampilkan batas waktu
+                print("Batas waktu:", end=" ")
+                deadline = (datetime.strptime(dataPeminjam[i][1], "%Y-%m-%d")+timedelta(days=7)).date()
+                print(deadline, end="    ")
+
+                # tampilkan nilai denda
+                if(date.today() > deadline):
+                    denda = (date.today()-deadline).days*500
+                    print("(Lebih batas waktu! denda: ",denda,")",sep="")
+                    
+                print("\n")
+
+        # pilih buku yang akan dikembalikan
+        daftarKode = [None]*len(dataPeminjam)
+        for i in range(1, len(dataPeminjam)):
+            if(dataPeminjam[i][0] == str(idMember)):
+                daftarKode[i] = dataPeminjam[i][2]
+
+        select = str(input("> ID Buku: "))
+
+        # tambah stok
+        if(select in daftarKode):
+            for i in range (0, len(dataBuku)):
+                if(dataBuku[i][0] == select):
+                    dataBuku[i][5]= str(int(dataBuku[i][5]) + 1)
+        writeDB(dataBuku, 'db/data_buku.txt')
+
+        # hapus data peminjam
+        for i in range(0, len(dataPeminjam)):
+            if(select == dataPeminjam[i][2] and str(idMember) == dataPeminjam[i][0]):
+                removeDB(i, 'db/data_peminjam.txt')
+                print("Buku berhasil dikembalikan!\n")
+                return
+    return
+
+## Definisi fungsi pendaftaran
+# --- Kamus Data ---
+# exist: 
+# kevin-krm: variabel untuk menyimpan kevin (object)
+def pendaftaran():
+    print ("---Form Pendaftaran---")
+    # Input Data Pengguna
+    NIK = int(input("Masukkan NIK: "))
+    ID = int(input("Masukkan NRP: "))
+    Nama = str(input("Masukkan Nama Lengkap: "))
+    Password = str(input("Buat Password: "))
+    cPassword = str(input("Konfirmasi Password: "))
+    
+    # periksa keberadaan NIK
+    dataMember = readDB('db/data_member.txt')
+    for i in range(0, len(dataMember)):
+        if(dataMember[i][0] == str(NIK) or dataMember[i][1]):
+            print("\nNIK atau NRP sudah ada\n")
+            return
+
+    # Konfirmasi Pendaftaran Member
+    if(Password == cPassword):
+        konfirm = str(input("Buat Akun? (Y/n): "))
+        print()
+        if (konfirm == "Y"):
+            appendDB([NIK,ID,Nama,Password], 'db/data_member.txt')
+            print("Pendaftaran Berhasil")
+            print("ID Member:",ID)
+            print("Nama:",Nama)
+            print()
+        else:
+            print("Pendaftaran Dibatalkan")
+            print()
+    else:
+        print("Password dan Konfirmasi Password tidak sama")
+    return
+
 ## Program utama 
 # --- Kamus Lokal ---
 # select: variabel untuk select (integer)
@@ -182,9 +313,9 @@ def main():
     if (select == 1):
         kategori()
     elif(select == 2):
-        return True
+        pengembalian()
     elif(select == 3):
-        return True
+        pendaftaran()
     elif(select == 0):
         return False
     
@@ -197,6 +328,8 @@ def main():
     return True
 
 from datetime import date
+from datetime import timedelta
+from datetime import datetime
 if __name__ == '__main__':
     run = True
     # Kode akan terus di eksekusi sampai keluar dari program
