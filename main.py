@@ -208,6 +208,7 @@ def peminjaman(daftarPinjam, jumlah):
 # --- Kamus Data ---
 def pengembalian():
     # minta login
+    found = False
     idMember = int(input("Masukkan ID Member: "))
     passwordMember = str(input("Masukkan Password Member: "))
 
@@ -216,62 +217,73 @@ def pengembalian():
     dataMember = readDB('db/data_member.txt')
     for i in range(1, len(dataMember)):
         if(idMember == int(dataMember[i][1])):
+            found = True
             if(passwordMember == dataMember[i][3]):
                 print("Login berhasil!")
             else:
                 idMember = 0
                 print("Login gagal! silahkan coba lagi!")
 
-    # readDB peminjaman
-    # readDB buku
-    # pilih buku yang akan dikembalikan
-    dataPeminjam = readDB('db/data_peminjam.txt')
-    dataBuku = readDB('db/data_buku.txt')
-    if(idMember != 0):
-        print("Pilih buku yang akan dikembalikan:")
-        
-        # tampilkan detail buku yang dipinjam
-        for i in range(0,len(dataPeminjam)):
-            if(dataPeminjam[i][0] == str(idMember)):
-                print(dataPeminjam[i][2], end="    ")
-
-                # tampilkan judul buku
-                for j in range(0,len(dataBuku)):
-                    if(dataPeminjam[i][2] == dataBuku[j][0]):
-                        print(dataBuku[j][1])
-                # tampilkan batas waktu
-                print("Batas waktu:", end=" ")
-                deadline = (datetime.strptime(dataPeminjam[i][1], "%Y-%m-%d")+timedelta(days=7)).date()
-                print(deadline, end="    ")
-
-                # tampilkan nilai denda
-                if(date.today() > deadline):
-                    denda = (date.today()-deadline).days*500
-                    print("(Lebih batas waktu! denda: ",denda,")",sep="")
-                    
-                print("\n")
-
+    # cek ketersediaan akun
+    if(found):
+        # readDB peminjaman
+        # readDB buku
         # pilih buku yang akan dikembalikan
-        daftarKode = [None]*len(dataPeminjam)
-        for i in range(1, len(dataPeminjam)):
-            if(dataPeminjam[i][0] == str(idMember)):
-                daftarKode[i] = dataPeminjam[i][2]
+        dataPeminjam = readDB('db/data_peminjam.txt')
+        dataBuku = readDB('db/data_buku.txt')
+        if(idMember != 0):
+            print("Pilih buku yang akan dikembalikan:")
+            
+            # tampilkan detail buku yang dipinjam
+            for i in range(0,len(dataPeminjam)):
+                if(dataPeminjam[i][0] == str(idMember)):
+                    print(dataPeminjam[i][2], end="    ")
 
-        select = str(input("> ID Buku: "))
+                    # tampilkan judul buku
+                    for j in range(0,len(dataBuku)):
+                        if(dataPeminjam[i][2] == dataBuku[j][0]):
+                            print(dataBuku[j][1])
+                    # tampilkan batas waktu
+                    print("Batas waktu:", end=" ")
+                    deadline = (datetime.strptime(dataPeminjam[i][1], "%Y-%m-%d")+timedelta(days=7)).date()
+                    print(deadline, end="    ")
 
-        # tambah stok
-        if(select in daftarKode):
-            for i in range (0, len(dataBuku)):
-                if(dataBuku[i][0] == select):
-                    dataBuku[i][5]= str(int(dataBuku[i][5]) + 1)
-        writeDB(dataBuku, 'db/data_buku.txt')
+                    # tampilkan nilai denda
+                    if(date.today() > deadline):
+                        denda = (date.today()-deadline).days*500
+                        print("(Lebih batas waktu! denda: ",denda,")",sep="")
+                        
+                    print("\n")
 
-        # hapus data peminjam
-        for i in range(0, len(dataPeminjam)):
-            if(select == dataPeminjam[i][2] and str(idMember) == dataPeminjam[i][0]):
-                removeDB(i, 'db/data_peminjam.txt')
-                print("Buku berhasil dikembalikan!\n")
-                return
+            # pilih buku yang akan dikembalikan
+            daftarKode = [None]*len(dataPeminjam)
+            for i in range(1, len(dataPeminjam)):
+                if(dataPeminjam[i][0] == str(idMember)):
+                    daftarKode[i] = dataPeminjam[i][2]
+
+            print("Ketik \"EXIT\" untuk membatalkan")
+            select = str(input("> ID Buku: "))
+
+            if(select != "EXIT"):
+                # tambah stok
+                if(select in daftarKode):
+                    for i in range (0, len(dataBuku)):
+                        if(dataBuku[i][0] == select):
+                            dataBuku[i][5]= str(int(dataBuku[i][5]) + 1)
+                writeDB(dataBuku, 'db/data_buku.txt')
+
+                # hapus data peminjam
+                for i in range(0, len(dataPeminjam)):
+                    if(select == dataPeminjam[i][2] and str(idMember) == dataPeminjam[i][0]):
+                        removeDB(i, 'db/data_peminjam.txt')
+                        print("Buku berhasil dikembalikan!\n")
+                        return
+            else:
+                print("Batal kembalikan buku")
+    else:
+        print("Member tidak ditemukan, login gagal, silahkan coba lagi!")
+    
+    print()
     return
 
 ## Definisi fungsi pendaftaran
@@ -324,7 +336,7 @@ def admin():
         adminAccess()
     else:
         print("Autentikasi gagal!")
-
+    
     return
 
 ## Definisi fungsi adminAccess
@@ -357,6 +369,8 @@ def adminAccess():
 # bookList: matriks menyimpan data buku (matriks string)
 # select: variabel untuk menyimpan pilihan aksi (integer)
 # editID: variabel untuk menyimpan hasil pencarian (integer)
+# judul, deskripsi, penulis, kategori, stok: variabel untuk menyimpan nilai baru (string)
+# changes: variabel untuk menyimpan status perubahan (boolean)
 def adminEdit():
     bookList = readDB('db/data_buku.txt')
     
@@ -367,7 +381,7 @@ def adminEdit():
     # tampilkan status buku saat ini
     print("Saat ini anda sedang menyunting:")
     editID = -1
-    for i in range(0, len(bookList)):
+    for i in range(1, len(bookList)):
         if(bookList[i][0] == select):
             editID = i
     if(editID != -1):
@@ -418,17 +432,72 @@ def adminEdit():
 
 ## definisi fungsi adminEdit
 # --- Kamus Lokal ---
+# bookID, judul, deskripsi, penulis, kategori, stok: variabel untuk menyimpan nilai baru (string)
 def adminAddCatalog():
+    print("Menambah buku baru:")
+    print("Kosongkan salah satu jika ingin membatalkan!")
+    bookID = str(input("> ID buku: "))
+    judul = str(input("> Judul: "))
+    deskripsi = str(input("> Deskripsi: "))
+    penulis = str(input("> Penulis: "))
+    kategori = str(input("> Kategori: "))
+    stok = str(input("> Stok: "))
+
+    if(bookID != "" and judul != "" and deskripsi != "" and penulis != "" and kategori != "" and stok != ""):
+        # ID_Buku||Judul||Deskripsi||Penulis||Kategori||Stok
+        appendDB([bookID, judul, deskripsi, penulis, kategori, stok], 'db/data_buku.txt')
+        print("Buku baru sudah berhasil disimpan!")
+    else:
+        print("Data tidak lengkap! buku baru tidak disimpan!")
+
+    print()
     return
 
 ## definisi fungsi adminEdit
 # --- Kamus Lokal ---
+# bookList: matriks menyimpan data buku (matriks string)
+# select: variabel untuk menyimpan input pengguna (string)
+# deleteID: variabel untuk menyimpan indeks untuk dihapus (integer)
 def adminDeleteCatalog():
+    bookList = readDB('db/data_buku.txt')
+    print("Menghapus buku yang sudah ada:")
+    # list current book list
+    for i in range(1, len(bookList)):
+        print(bookList[i][0], "    ", bookList[i][1],
+                sep="")
+    print()
+    select = str(input("> Pilih ID buku yang akan dihapus: "))
+    deleteID = -1
+    for i in range(1, len(bookList)):
+        if(bookList[i][0] == select):
+            deleteID = i
+    if(deleteID != -1):
+        if(str(input("> Password admin: ")) == "admin123"):
+            removeDB(deleteID, 'db/data_buku.txt')
+            print("Data berhasil dihapus!")
+        else:
+            print("Password salah! tidak ada data yang dihapus!")
+    else:
+        print("Data tidak ditemukan, tidak ada data yang dihapus!")
+
+    print()
     return
 
-## definisi fungsi adminEdit
+## definisi fungsi adminCheckMember
 # --- Kamus Lokal ---
+# 
 def adminCheckMember():
+    # read data member
+    # read data peminjam
+    # read data buku
+    dataMember = readDB('db/data_member.txt')
+    dataPeminjam = readDB('db/data_peminjam.txt')
+    dataBuku =readDB('db/data_buku.txt')
+
+    # list all member
+        # for each member, list all their borrowed books
+
+    print()
     return
 
 ## Program utama 
