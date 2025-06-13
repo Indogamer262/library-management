@@ -106,6 +106,29 @@ def kategori():
         showCategories(select)
         return
 
+## Definisi fungsi displayBookList
+# --- Kamus Lokal ---
+# categories: variabel untuk menyimpan kategori pilihan (integer)
+# bookList: matriks daftar buku untuk ditampilkan (matriks string)
+def displayBookList(categories, bookList):
+    catList = ["All categories","Pendidikan", "Biografi", "Komik", "Novel"]
+    for i in range(1, len(bookList)):
+        if(categories == 1):
+            printDetails(i, bookList)
+        else:
+            if(bookList[i][4] == catList[categories-1]):
+                printDetails(i, bookList)
+    return
+
+## Definisi fungsi printDetails
+# --- Kamus Lokal ---
+# bookList: matriks daftar buku untuk ditampilkan (matriks string)
+def printDetails(lines, bookList):
+    print(bookList[lines][0], "    ", bookList[lines][1],
+            "\n", bookList[lines][2],
+            "\n", bookList[lines][3], " | Ketersediaan: ", bookList[lines][5], "\n",
+            sep="")
+
 ## Definisi fungsi showCategories
 # --- Kamus Lokal ---
 # categories: variabel parameter untuk menyimpan kategori pilihan (integer)
@@ -117,18 +140,7 @@ def showCategories(categories):
     bookList = readDB('db/data_buku.txt')
     
     print("Kategori:",cat[categories-1],"\n")
-    for i in range(1, len(bookList)):
-        if(categories == 1):
-            print(bookList[i][0], "    ", bookList[i][1],
-                    "\n", bookList[i][2],
-                    "\n", bookList[i][3], " | Ketersediaan: ", bookList[i][5], "\n",
-                    sep="")
-        else:
-            if(bookList[i][4] == cat[categories-1]):
-                print(bookList[i][0], "    ", bookList[i][1],
-                      "\n", bookList[i][2],
-                      "\n", bookList[i][3], " | Ketersediaan: ", bookList[i][5], "\n",
-                      sep="")
+    displayBookList(categories, bookList)
     
     lagi = "Y"
     print("Ketik \"EXIT\" jika ingin membatalkan")
@@ -299,6 +311,126 @@ def pendaftaran():
         print("Password dan Konfirmasi Password tidak sama")
     return
 
+## Definisi fungsi admin
+# --- Kamus Lokal ---
+# password: variabel untuk menyimpan password yang akan dicek (string)
+def admin():
+    print("Untuk masuk ke dalam mode admin, silahkan login terlebih dahulu")
+    password = str(input("> Password: "))
+
+    if(password == "admin123"):
+        print("Autentikasi berhasil!")
+        print()
+        adminAccess()
+    else:
+        print("Autentikasi gagal!")
+
+    return
+
+## Definisi fungsi adminAccess
+# --- Kamus Lokal ---
+# select: variabel untuk menyimpan pilihan aksi (integer)
+def adminAccess():
+    print("Saat ini anda sedang dalam mode Admin")
+    print("Pilih aksi:",
+          "1. Edit detail buku",
+          "2. Tambah katalog buku",
+          "3. Hapus katalog buku",
+          "4. Periksa anggota",
+          "0. Keluar dari Admin",
+          sep="\n")
+
+    select = int(input("> aksi: "))    
+    print()
+    if(select == 1):
+        adminEdit()
+    elif(select == 2):
+        adminAddCatalog()
+    elif(select == 3):
+        adminDeleteCatalog()
+    elif(select == 4):
+        adminCheckMember()
+    return
+
+## definisi fungsi adminEdit
+# --- Kamus Lokal ---
+# bookList: matriks menyimpan data buku (matriks string)
+# select: variabel untuk menyimpan pilihan aksi (integer)
+# editID: variabel untuk menyimpan hasil pencarian (integer)
+def adminEdit():
+    bookList = readDB('db/data_buku.txt')
+    
+    displayBookList(1, bookList)
+    select = str(input("> Pilih kode buku untuk di sunting: "))
+    print()
+    
+    # tampilkan status buku saat ini
+    print("Saat ini anda sedang menyunting:")
+    editID = -1
+    for i in range(0, len(bookList)):
+        if(bookList[i][0] == select):
+            editID = i
+    if(editID != -1):
+        print("Kategori:", bookList[editID][4])
+        printDetails(editID, bookList)
+
+        print("Menyunting, biarkan kosong jika tidak ingin mengubah!")
+        judul = str(input("> Judul baru: "))
+        deskripsi = str(input("> Deskripsi baru: "))
+        penulis = str(input("> Kategori baru: "))
+        kategori = str(input("> Kategori baru: "))
+        stok = str(input("> Stok baru: "))
+
+        # apply changes
+        changes = False
+        if(judul != ""):
+            bookList[editID][1] = judul
+            print("Judul diubah!")
+            changes = True
+        if(deskripsi != ""):
+            bookList[editID][2] = deskripsi
+            print("Deksripsi diubah!")
+            changes = True
+        if(penulis != ""):
+            bookList[editID][3] = penulis
+            print("Penulis diubah!")
+            changes = True
+        if(kategori != ""):
+            bookList[editID][4] = kategori
+            print("Kategori diubah!")
+            changes = True
+        if(stok != ""):
+            bookList[editID][5] = stok
+            print("Stok diubah!")
+            changes = True
+
+        if(changes):
+            writeDB(bookList, 'db/data_buku.txt')
+            print("Data yang diubah telah disimpan!")
+        else:
+            print("Tidak ada perubahan!")
+
+    else:
+        print("Kesalahan! Buku tidak ditemukan!")
+
+    print()
+    return
+
+## definisi fungsi adminEdit
+# --- Kamus Lokal ---
+def adminAddCatalog():
+    return
+
+## definisi fungsi adminEdit
+# --- Kamus Lokal ---
+def adminDeleteCatalog():
+    return
+
+## definisi fungsi adminEdit
+# --- Kamus Lokal ---
+def adminCheckMember():
+    return
+
 ## Program utama 
 # --- Kamus Lokal ---
 # select: variabel untuk select (integer)
@@ -316,6 +448,8 @@ def main():
         pengembalian()
     elif(select == 3):
         pendaftaran()
+    elif(select == 99):
+        admin()
     elif(select == 0):
         return False
     
