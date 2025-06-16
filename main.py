@@ -5,8 +5,9 @@
 
 ## Definisi fungsi deklarasi Matriks
 # --- Kamus Lokal ---
-#
-#
+# mat: matriks string yang di deklarasikan (matriks string)
+# row, cols: variabel parameter untuk menentukan ukuran matriks (integer)
+# i: variabel pengendali loop for (integer)
 def deklarasiMatriks(row,cols):
     mat = [None]*row
     for i in range(0, row):
@@ -110,6 +111,8 @@ def kategori():
 # --- Kamus Lokal ---
 # categories: variabel untuk menyimpan kategori pilihan (integer)
 # bookList: matriks daftar buku untuk ditampilkan (matriks string)
+# catList: array untuk menyimpan daftar kategori yang tersedia (array string)
+# i: variabel pengendali loop for (integer)
 def displayBookList(categories, bookList):
     catList = ["All categories","Pendidikan", "Biografi", "Komik", "Novel"]
     for i in range(1, len(bookList)):
@@ -135,6 +138,11 @@ def printDetails(lines, bookList):
 # cat: array menyimpan kategori yang tersedia (array string)
 # bookList: matriks menyimpan data buku dari database (matriks string)
 # select: variabel untuk menyimpan pilihan pengguna (integer)
+# bookList: matriks untuk menyimpan hasil baca DB (matriks string)
+# daftarKode: array untuk memnyimpan daftar kode buku yang tersedia (array string)
+# daftarPinjam: array untuk menyimpan daftar buku yang akan dipinjam (array string)
+# lagi: variabel pengendali loop while (boolean)
+# i: variabel pengendali loop while (integer)
 def showCategories(categories):
     cat=["All categories","Pendidikan", "Biografi", "Komik", "Novel"]
     bookList = readDB('db/data_buku.txt')
@@ -171,7 +179,14 @@ def showCategories(categories):
 
 ## Definisi fungsi peminjaman
 # --- Kamus Lokal ---
-# 
+# daftarPinjam: array paramter menyimpan daftar buku yang dipinjam (array string)
+# jumlah: variabel parameter untuk menyimpan ukuran array (integer)
+# judulBuku, dataMember: matriks untuk menyimpan hasil baca DB (matriks string)
+# dataMember: variabel input data member (integer)
+# passwordMember: variabel input password member (string)
+# dataArray: array sementara untuk menyimpan data yang akan ditulis ke DB (array string)
+# stokNow: variabel untuk menyimpan nilai stok saat ini (integer)
+# i, j, k: variabel pengendali loop for (integer)
 def peminjaman(daftarPinjam, jumlah):
     judulBuku = readDB('db/data_buku.txt')
     print("Anda akan meminjam:")
@@ -205,7 +220,16 @@ def peminjaman(daftarPinjam, jumlah):
     return
 
 ## Definisi fungsi pengembalian
-# --- Kamus Data ---
+# --- Kamus Lokal ---
+# found: variabel untuk menyimpan hasil pencarian (boolean)
+# idMember: variabel untuk menyimpan input ID member (integer)
+# passwordMember: variabel untuk menyimpan input password (string)
+# dataMember, dataPeminjam, dataBuku: matriks menyimpan hasil pembacaan DB (matriks string)
+# daftarKode: array untuk menyimpan daftar kode buku yang tersedia (array string)
+# select: variabel untuk menyimpan input pilihan menu (integer)
+# deadline: variabel untuk menyimpan tanggal deadline (string)
+# denda: variabel untuk menyimpan jumlah denda (integer)
+# i, j: variabel pengendali loop for (integer)
 def pengembalian():
     # minta login
     found = False
@@ -287,9 +311,11 @@ def pengembalian():
     return
 
 ## Definisi fungsi pendaftaran
-# --- Kamus Data ---
-# exist: 
-# kevin-krm: variabel untuk menyimpan kevin (object)
+# --- Kamus Lokal ---
+# NIK, ID: variabel untuk menyimpan informasi pendaftaran (integer)
+# Nama, Password, cPassword: variabel untuk menyimpan informasi pendaftaran (string)
+# dataMember: matriks untuk menyimpan hasil baca DB (matriks string)
+# i: variabel pengendali loop for (integer)
 def pendaftaran():
     print ("---Form Pendaftaran---")
     # Input Data Pengguna
@@ -485,17 +511,48 @@ def adminDeleteCatalog():
 
 ## definisi fungsi adminCheckMember
 # --- Kamus Lokal ---
-# 
+# dataMember, dataPeminjam, dataBuku: matriks untuk menyimpan isi database (matriks string)
+# isBorrowing: variabel untuk menyimpan hasil pencarian (boolean)
+# deadline: variabel untuk menyimpan tanggal deadline (string)
+# denda: variabel untuk menyimpan jumlah denda (integer)
+# i, j, k: variabel pengendali loop for (integer)
 def adminCheckMember():
     # read data member
     # read data peminjam
     # read data buku
     dataMember = readDB('db/data_member.txt')
     dataPeminjam = readDB('db/data_peminjam.txt')
-    dataBuku =readDB('db/data_buku.txt')
+    dataBuku = readDB('db/data_buku.txt')
 
     # list all member
+    print("Daftar Member Saat ini:")
+    for i in range(1, len(dataMember)):
+        print("-------------------------------------------------")
+        print("NIK: ", dataMember[i][0], " - ", dataMember[i][1], " (", dataMember[i][2] , ")", sep="")
         # for each member, list all their borrowed books
+        isBorrowing = False
+        for j in range(1, len(dataPeminjam)):
+            if(dataPeminjam[j][0] == dataMember[i][1]):
+                isBorrowing = True
+                print(dataPeminjam[j][2], "      ", end="")
+                # get book details
+                for k in range(1, len(dataBuku)):
+                    if(dataPeminjam[j][2] == dataBuku[k][0]):
+                        print(dataBuku[k][1])
+                        # tampilkan batas waktu
+                        print("Batas waktu:", end=" ")
+                        deadline = (datetime.strptime(dataPeminjam[j][1], "%Y-%m-%d")+timedelta(days=7)).date()
+                        print(deadline, end="    ")
+
+                        # tampilkan nilai denda
+                        if(date.today() > deadline):
+                            denda = (date.today()-deadline).days*500
+                            print("(Lebih batas waktu! denda: ",denda,")",sep="")
+                            
+                        print()
+        if(isBorrowing == False):
+            print("< tidak meminjam apapun >")
+        print()
 
     print()
     return
