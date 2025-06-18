@@ -8,7 +8,7 @@ P6||Elementary Linear Algebra: Applications Version, 12th Edition||Buku yang mem
 P7||Elementary Linear Algebra, 8th Edition||Buku yang berisi presentasi materi Aljabar linear secara singkat, jelas, padat.||Ron Larson||Pendidikan||0
 P8||Linear Algebra: Step by Step||Buku yang berisi permasalahan dunia nyata yang diselesaikan oleh Aljabar Linear dasar.||Kuldeep Singh||Pendidikan||4
 P9||Sukarno: An Autobiography||Buku yang mencerminkan semua kualitas dramatis dan kontradiktif dari mantan presiden Sukarno.||Sukarno, Cindy Heller Adams||Biografi||2
-P10||Biografi Gus Dur||Buku yang memotret dan menampilkan pemahaman yang utuh dan komprehensif tentang sosok Gus Dur kepada kita.||Greg Barton||Biografi||0
+P10||Biografi Gus Dur||Buku yang memotret dan menampilkan pemahaman yang utuh dan komprehensif tentang sosok Gus Dur kepada kita.||Greg Barton||Biografi||1
 P15||Si Juki: Komik Strip||Komik yang merangkum perjalanan si juki sang aktor komik.||Faza Meonk||Komik||3
 P16||Tombs: Junji Ito Story Collection||Mimpi buruk terkini tentang batu nisan dipersembahkan oleh pakar horor Junji Ito.||Junji Ito||Komik||1
 P19||Spy X Family Vol.1||Buku yang menceritakan seorang mata-mata yang harus membangun keluarga palsu demi melancarkan misi perdamaian.||Endou Tatsuya||Komik||1

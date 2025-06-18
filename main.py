@@ -328,7 +328,7 @@ def pendaftaran():
     # periksa keberadaan NIK
     dataMember = readDB('db/data_member.txt')
     for i in range(0, len(dataMember)):
-        if(dataMember[i][0] == str(NIK) or dataMember[i][1]):
+        if(dataMember[i][0] == str(NIK) or dataMember[i][1] == ID):
             print("\nNIK atau NRP sudah ada\n")
             return
 
@@ -479,7 +479,7 @@ def adminAddCatalog():
     print()
     return
 
-## definisi fungsi adminEdit
+## definisi fungsi adminDeleteCatalog
 # --- Kamus Lokal ---
 # bookList: matriks menyimpan data buku (matriks string)
 # select: variabel untuk menyimpan input pengguna (string)
