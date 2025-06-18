@@ -91,6 +91,7 @@ def removeDB(lines, dbFile):
 # --- Kamus Lokal ---
 # select: variabel untuk menyimpan pilihan pengguna (integer)
 def kategori():
+    print ()
     print(
         "Pilih kategori",
         "1. All categories",
@@ -231,6 +232,7 @@ def peminjaman(daftarPinjam, jumlah):
 # denda: variabel untuk menyimpan jumlah denda (integer)
 # i, j: variabel pengendali loop for (integer)
 def pengembalian():
+    print ()
     # minta login
     found = False
     idMember = int(input("Masukkan ID Member: "))
@@ -317,6 +319,7 @@ def pengembalian():
 # dataMember: matriks untuk menyimpan hasil baca DB (matriks string)
 # i: variabel pengendali loop for (integer)
 def pendaftaran():
+    print ()
     print ("---Form Pendaftaran---")
     # Input Data Pengguna
     NIK = int(input("Masukkan NIK: "))
@@ -417,7 +420,7 @@ def adminEdit():
         print("Menyunting, biarkan kosong jika tidak ingin mengubah!")
         judul = str(input("> Judul baru: "))
         deskripsi = str(input("> Deskripsi baru: "))
-        penulis = str(input("> Kategori baru: "))
+        penulis = str(input("> Penulis baru: "))
         kategori = str(input("> Kategori baru: "))
         stok = str(input("> Stok baru: "))
 
@@ -561,6 +564,7 @@ def adminCheckMember():
 # --- Kamus Lokal ---
 # select: variabel untuk select (integer)
 def main():
+    print ()
     print("Selamat datang di Kevin Library, pilih menu:",
           "1. Lihat Daftar buku",
           "2. Kembalikan Buku",

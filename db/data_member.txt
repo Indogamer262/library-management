@@ -8,3 +8,4 @@ NIK||ID_member||nama_member||password_member
 12340123459999||2472048||Jayden Marvel Ethanael||jayden
 12340123459988||2472049||Gak tau siapa||jayden
 12340123451818||2472018||Kevin Kornelius Martadinata||kevin123
+12340123456733||2472100||Nama Contoh||contoh

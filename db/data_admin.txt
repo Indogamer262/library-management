@@ -1,2 +1,0 @@
-NIK||ID||nama_member||password_member
-12340123456789||2472008||Christian Anthony Hermawan||chrisA_member
