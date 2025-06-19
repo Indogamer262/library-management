@@ -322,17 +322,16 @@ def pendaftaran():
     print ()
     print ("---Form Pendaftaran---")
     # Input Data Pengguna
-    NIK = int(input("Masukkan NIK: "))
-    ID = int(input("Masukkan NRP: "))
-    Nama = str(input("Masukkan Nama Lengkap: "))
-    Password = str(input("Buat Password: "))
-    cPassword = str(input("Konfirmasi Password: "))
+    ID = int(input("Masukkan ID Baru*      : "))
+    Nama = str(input("Masukkan Nama Lengkap* : "))
+    Password = str(input("Buat Password*         : "))
+    cPassword = str(input("Konfirmasi Password*   : "))
     
     # periksa keberadaan NIK
     dataMember = readDB('db/data_member.txt')
     for i in range(0, len(dataMember)):
-        if(dataMember[i][0] == str(NIK) or dataMember[i][1] == ID):
-            print("\nNIK atau NRP sudah ada\n")
+        if(dataMember[i][1] == str(ID)):
+            print("\nPendaftaran tidak berhasil, ID sudah ada")
             return
 
     # Konfirmasi Pendaftaran Member
@@ -340,7 +339,7 @@ def pendaftaran():
         konfirm = str(input("Buat Akun? (Y/n): "))
         print()
         if (konfirm == "Y"):
-            appendDB([NIK,ID,Nama,Password], 'db/data_member.txt')
+            appendDB([0,ID,Nama,Password], 'db/data_member.txt')
             print("Pendaftaran Berhasil")
             print("ID Member:",ID)
             print("Nama:",Nama)
@@ -355,14 +354,17 @@ def pendaftaran():
 ## Definisi fungsi admin
 # --- Kamus Lokal ---
 # password: variabel untuk menyimpan password yang akan dicek (string)
+# login: variabel untuk menyimpan status login (integer)
 def admin():
     print("Untuk masuk ke dalam mode admin, silahkan login terlebih dahulu")
     password = str(input("> Password: "))
 
     if(password == "admin123"):
+        login = 1
         print("Autentikasi berhasil!")
         print()
-        adminAccess()
+        while(login != 0):
+            login = adminAccess()
     else:
         print("Autentikasi gagal!")
     
@@ -375,8 +377,8 @@ def adminAccess():
     print("Saat ini anda sedang dalam mode Admin")
     print("Pilih aksi:",
           "1. Edit detail buku",
-          "2. Tambah katalog buku",
-          "3. Hapus katalog buku",
+          "2. Tambah buku baru",
+          "3. Hapus buku",
           "4. Periksa anggota",
           "0. Keluar dari Admin",
           sep="\n")
@@ -391,7 +393,11 @@ def adminAccess():
         adminDeleteCatalog()
     elif(select == 4):
         adminCheckMember()
-    return
+    elif(select == 0):
+        return 0
+    else:
+        print("Input salah! (1-4, 0)")
+    return 1
 
 ## definisi fungsi adminEdit
 # --- Kamus Lokal ---
@@ -566,10 +572,11 @@ def adminCheckMember():
 def main():
     print ()
     print("Selamat datang di Kevin Library, pilih menu:",
-          "1. Lihat Daftar buku",
-          "2. Kembalikan Buku",
-          "3. Pendaftaran Member",
-          "0. Keluar dari Program",
+          " 1. Lihat Daftar buku",
+          " 2. Kembalikan Buku",
+          " 3. Pendaftaran Member",
+          " 0. Keluar dari Program",
+          "99. Mode admin",
     sep="\n")
     select = int(input("> "))
     if (select == 1):

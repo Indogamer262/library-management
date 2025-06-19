@@ -1,11 +1,10 @@
 NIK||ID_member||nama_member||password_member
-12340123456789||2472008||Christian Anthony Hermawan||chrisA_member
-12345678901234||2472005||Reyner Cornelius||reynerC_member
-27645123801934||2472041||Rico Dharmawan||RicoD_member
-29112705346438||2472026||Valentino Hose||ValentinoH_member
-34561234012789||2472006||Sean Patrick||SeanP_member
-78934564012123||2472042||Gavin Malik Setiawan||GavinM_member
-12340123459999||2472048||Jayden Marvel Ethanael||jayden
-12340123459988||2472049||Gak tau siapa||jayden
-12340123451818||2472018||Kevin Kornelius Martadinata||kevin123
-12340123456733||2472100||Nama Contoh||contoh
+0||2472008||Christian Anthony Hermawan||chrisA_member
+0||2472005||Reyner Cornelius||reynerC_member
+0||2472041||Rico Dharmawan||RicoD_member
+0||2472026||Valentino Hose||ValentinoH_member
+0||2472006||Sean Patrick||SeanP_member
+0||2472042||Gavin Malik Setiawan||GavinM_member
+0||2472048||Jayden Marvel Ethanael||jayden
+0||2472049||Gak tau siapa||jayden
+0||2472018||Kevin Kornelius Martadinata||kevin123
