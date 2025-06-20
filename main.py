@@ -537,7 +537,7 @@ def adminCheckMember():
     print("Daftar Member Saat ini:")
     for i in range(1, len(dataMember)):
         print("-------------------------------------------------")
-        print("NIK: ", dataMember[i][0], " - ", dataMember[i][1], " (", dataMember[i][2] , ")", sep="")
+        print(dataMember[i][1], " (", dataMember[i][2] , ")", sep="")
         # for each member, list all their borrowed books
         isBorrowing = False
         for j in range(1, len(dataPeminjam)):
